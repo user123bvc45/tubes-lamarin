@@ -55,11 +55,18 @@ func main() {
 		user.Email = scanner.Text()
 	}
 
-	// Data pekerjaan
+	// ==== Data dummy pekerjaan ====
 	jobs := []Pekerjaan{
-		{"Software k", "Tech Corp", "Jakarta", 15000000, "Mengembangkan aplikasi berbasis web", []string{"Go", "JavaScript", "Docker"}},
+		{"Software Engineer", "Tech Corp", "Jakarta", 15000000, "Mengembangkan aplikasi berbasis web", []string{"Go", "JavaScript", "Docker"}},
 		{"Data Scientist", "Data Analytics", "Bandung", 12000000, "Menganalisis data dan membuat model prediktif", []string{"Python", "Machine Learning", "SQL"}},
 		{"Product Manager", "Digital Solutions", "Surabaya", 18000000, "Memimpin pengembangan produk digital", []string{"Leadership", "Agile", "Product Strategy"}},
+		{"UI/UX Designer", "Creative Studio", "Yogyakarta", 10000000, "Mendesain tampilan dan pengalaman pengguna aplikasi mobile", []string{"Figma", "Adobe XD", "Creativity"}},
+		{"Network Engineer", "Net Solutions", "Jakarta", 13000000, "Mengelola dan memelihara jaringan perusahaan", []string{"Networking", "Cisco", "Linux"}},
+		{"Mobile Developer", "AppDev", "Bandung", 14000000, "Membuat aplikasi mobile Android/iOS", []string{"Kotlin", "Swift", "UI Design"}},
+		{"System Analyst", "IT Consult", "Semarang", 12500000, "Menganalisis kebutuhan sistem dan membuat dokumentasi", []string{"Analysis", "Documentation", "SQL"}},
+		{"Web Developer", "Webku id", "Yogyakarta", 11500000, "Membuat dan mengelola website perusahaan", []string{"HTML", "CSS", "JavaScript"}},
+		{"Mobile App Tester", "Aplikasi Kita", "Yogyakarta", 9000000, "Menguji aplikasi Android/iOS sebelum rilis", []string{"Android", "iOS", "Testing"}},
+		{"Helpdesk IT", "Universitas Maju", "Semarang", 8000000, "Menjawab pertanyaan dan membantu masalah IT kampus", []string{"Komunikasi", "Troubleshooting", "Sabar"}},
 	}
 
 	// Menu utama
@@ -85,10 +92,10 @@ func main() {
 		case 4:
 			evaluasiResume(user, jobs)
 		case 5:
-			fmt.Println("Terima kasih telah menggunakan aplikasi ini!")
+			fmt.Println("Terima kasih telah menggunakan aplikasi ini! ")
 			return
 		default:
-			fmt.Println("Pilihan tidak valid")
+			fmt.Println("❌ Pilihan tidak valid")
 		}
 	}
 }
@@ -102,7 +109,7 @@ func kelolaProfil(user *UserData) {
 		fmt.Println("4. Ubah Data")
 		fmt.Println("5. Hapus Data")
 		fmt.Println("6. Lihat Profil")
-		fmt.Println("7. Kembali")
+		fmt.Println("7. Kembali ke menu awal")
 		fmt.Print("Pilih menu: ")
 
 		var pilihan int
@@ -124,7 +131,7 @@ func kelolaProfil(user *UserData) {
 		case 7:
 			return
 		default:
-			fmt.Println("Pilihan tidak valid")
+			fmt.Println("❌ Pilihan tidak valid")
 		}
 	}
 }
@@ -142,7 +149,7 @@ func ubahData(user *UserData) {
 	switch pilihan {
 	case 1:
 		if len(user.Pendidikan) == 0 {
-			fmt.Println("Belum ada data pendidikan")
+			fmt.Println("❌ Belum ada data pendidikan")
 			return
 		}
 		for i, p := range user.Pendidikan {
@@ -152,7 +159,7 @@ func ubahData(user *UserData) {
 		var index int
 		fmt.Scanln(&index)
 		if index < 1 || index > len(user.Pendidikan) {
-			fmt.Println("Indeks tidak valid")
+			fmt.Println("❌ Indeks tidak valid")
 			return
 		}
 		fmt.Print("Institusi: ")
@@ -166,9 +173,10 @@ func ubahData(user *UserData) {
 		}
 		fmt.Print("Tahun: ")
 		fmt.Scanln(&user.Pendidikan[index-1].Tahun)
+		fmt.Println("✅ Data pendidikan berhasil diubah!")
 	case 2:
 		if len(user.Pengalaman) == 0 {
-			fmt.Println("Belum ada data pengalaman")
+			fmt.Println("❌ Belum ada data pengalaman")
 			return
 		}
 		for i, exp := range user.Pengalaman {
@@ -178,7 +186,7 @@ func ubahData(user *UserData) {
 		var index int
 		fmt.Scanln(&index)
 		if index < 1 || index > len(user.Pengalaman) {
-			fmt.Println("Indeks tidak valid")
+			fmt.Println("❌ Indeks tidak valid")
 			return
 		}
 		scanner := bufio.NewScanner(os.Stdin)
@@ -198,9 +206,10 @@ func ubahData(user *UserData) {
 		if scanner.Scan() {
 			user.Pengalaman[index-1].Deskripsi = scanner.Text()
 		}
+		fmt.Println("✅ Data pengalaman berhasil diubah!")
 	case 3:
 		if len(user.Keterampilan) == 0 {
-			fmt.Println("Belum ada keterampilan")
+			fmt.Println("❌ Belum ada keterampilan")
 			return
 		}
 		for i, skill := range user.Keterampilan {
@@ -210,7 +219,7 @@ func ubahData(user *UserData) {
 		var index int
 		fmt.Scanln(&index)
 		if index < 1 || index > len(user.Keterampilan) {
-			fmt.Println("Indeks tidak valid")
+			fmt.Println("❌ Indeks tidak valid")
 			return
 		}
 		fmt.Print("Masukkan keterampilan baru: ")
@@ -218,8 +227,9 @@ func ubahData(user *UserData) {
 		if scanner.Scan() {
 			user.Keterampilan[index-1] = scanner.Text()
 		}
+		fmt.Println("✅ Data keterampilan berhasil diubah!")
 	default:
-		fmt.Println("Pilihan tidak valid")
+		fmt.Println("❌ Pilihan tidak valid")
 	}
 }
 
@@ -233,10 +243,9 @@ func hapusData(user *UserData) {
 	var pilihan int
 	fmt.Scanln(&pilihan)
 
-	switch pilihan {
-	case 1:
+	if pilihan == 1 {
 		if len(user.Pendidikan) == 0 {
-			fmt.Println("Tidak ada data pendidikan untuk dihapus")
+			fmt.Println("❌ Tidak ada data pendidikan untuk dihapus")
 			return
 		}
 		for i, p := range user.Pendidikan {
@@ -247,13 +256,14 @@ func hapusData(user *UserData) {
 		fmt.Scanln(&index)
 		if index >= 1 && index <= len(user.Pendidikan) {
 			user.Pendidikan = append(user.Pendidikan[:index-1], user.Pendidikan[index:]...)
-			fmt.Println("Data pendidikan berhasil dihapus")
+			fmt.Println("✅ Data pendidikan berhasil dihapus")
 		} else {
-			fmt.Println("Indeks tidak valid")
+			fmt.Println("❌ Indeks tidak valid")
 		}
-	case 2:
+
+	} else if pilihan == 2 {
 		if len(user.Pengalaman) == 0 {
-			fmt.Println("Tidak ada data pengalaman untuk dihapus")
+			fmt.Println("❌ Tidak ada data pengalaman untuk dihapus")
 			return
 		}
 		for i, p := range user.Pengalaman {
@@ -264,13 +274,14 @@ func hapusData(user *UserData) {
 		fmt.Scanln(&index)
 		if index >= 1 && index <= len(user.Pengalaman) {
 			user.Pengalaman = append(user.Pengalaman[:index-1], user.Pengalaman[index:]...)
-			fmt.Println("Data pengalaman berhasil dihapus")
+			fmt.Println("✅ Data pengalaman berhasil dihapus")
 		} else {
-			fmt.Println("Indeks tidak valid")
+			fmt.Println("❌ Indeks tidak valid")
 		}
-	case 3:
+
+	} else if pilihan == 3 {
 		if len(user.Keterampilan) == 0 {
-			fmt.Println("Tidak ada keterampilan untuk dihapus")
+			fmt.Println("❌ Tidak ada keterampilan untuk dihapus")
 			return
 		}
 		for i, k := range user.Keterampilan {
@@ -281,12 +292,12 @@ func hapusData(user *UserData) {
 		fmt.Scanln(&index)
 		if index >= 1 && index <= len(user.Keterampilan) {
 			user.Keterampilan = append(user.Keterampilan[:index-1], user.Keterampilan[index:]...)
-			fmt.Println("Keterampilan berhasil dihapus")
+			fmt.Println("✅ Keterampilan berhasil dihapus")
 		} else {
-			fmt.Println("Indeks tidak valid")
+			fmt.Println("❌ Indeks tidak valid")
 		}
-	default:
-		fmt.Println("Pilihan tidak valid")
+	} else {
+		fmt.Println("❌ Indeks tidak valid")
 	}
 }
 
@@ -299,17 +310,15 @@ func tambahPendidikan(user *UserData) {
 	if scanner.Scan() {
 		pendidikan.Institusi = scanner.Text()
 	}
-
 	fmt.Print("Gelar: ")
 	if scanner.Scan() {
 		pendidikan.Gelar = scanner.Text()
 	}
-
 	fmt.Print("Tahun: ")
 	fmt.Scanln(&pendidikan.Tahun)
 
 	user.Pendidikan = append(user.Pendidikan, pendidikan)
-	fmt.Println("Pendidikan berhasil ditambahkan!")
+	fmt.Println("✅ Pendidikan berhasil ditambahkan!")
 }
 
 func tambahPengalaman(user *UserData) {
@@ -330,24 +339,20 @@ func tambahPengalaman(user *UserData) {
 	if scanner.Scan() {
 		pengalaman.Posisi = scanner.Text()
 	}
-
 	fmt.Print("Perusahaan: ")
 	if scanner.Scan() {
 		pengalaman.Perusahaan = scanner.Text()
 	}
-
 	fmt.Print("Durasi (contoh: 2018-2020): ")
 	if scanner.Scan() {
 		pengalaman.Durasi = scanner.Text()
 	}
-
 	fmt.Print("Deskripsi: ")
 	if scanner.Scan() {
 		pengalaman.Deskripsi = scanner.Text()
 	}
-
 	user.Pengalaman = append(user.Pengalaman, pengalaman)
-	fmt.Println("Pengalaman berhasil ditambahkan!")
+	fmt.Println("✅ Pengalaman berhasil ditambahkan!")
 }
 
 func tambahKeterampilan(user *UserData) {
@@ -364,28 +369,25 @@ func tambahKeterampilan(user *UserData) {
 		user.Keterampilan = append(user.Keterampilan, skills...)
 	}
 
-	fmt.Println("Keterampilan berhasil ditambahkan!")
+	fmt.Println("✅ Keterampilan berhasil ditambahkan!")
 }
 
 func lihatProfil(user UserData) {
 	fmt.Println("\n=== Profil Pengguna ===")
-	fmt.Printf("Nama: %s\n", user.Nama)
-	fmt.Printf("Email: %s\n", user.Email)
+	fmt.Println("Nama:", user.Nama)
+	fmt.Println("Email:", user.Email)
 
-	fmt.Println("\nPendidikan:")
-	for _, p := range user.Pendidikan {
-		fmt.Printf("- %s, %s (%d)\n", p.Institusi, p.Gelar, p.Tahun)
+	fmt.Println("Pendidikan:")
+	for i := 0; i < len(user.Pendidikan); i++ {
+		fmt.Println(user.Pendidikan[i].Institusi, user.Pendidikan[i].Gelar, user.Pendidikan[i].Tahun)
 	}
-
-	fmt.Println("\nPengalaman:")
-	for _, exp := range user.Pengalaman {
-		fmt.Printf("- %s di %s (%s)\n", exp.Posisi, exp.Perusahaan, exp.Durasi)
-		fmt.Printf("  Deskripsi: %s\n", exp.Deskripsi)
+	fmt.Println("Pengalaman:")
+	for i := 0; i < len(user.Pengalaman); i++ {
+		fmt.Println(user.Pengalaman[i].Posisi, user.Pengalaman[i].Perusahaan, user.Pengalaman[i].Durasi, user.Pengalaman[i].Deskripsi)
 	}
-
-	fmt.Println("\nKeterampilan:")
-	for _, skill := range user.Keterampilan {
-		fmt.Printf("- %s\n", skill)
+	fmt.Println("Keterampilan:")
+	for i := 0; i < len(user.Keterampilan); i++ {
+		fmt.Println(user.Keterampilan[i])
 	}
 }
 
@@ -414,7 +416,7 @@ func cariPekerjaan(jobs []Pekerjaan) {
 		case 5:
 			return
 		default:
-			fmt.Println("Pilihan tidak valid")
+			fmt.Println("❌ Pilihan tidak valid")
 		}
 	}
 }
@@ -439,12 +441,12 @@ func sequentialSearch(jobs []Pekerjaan) {
 	}
 
 	if !found {
-		fmt.Println("Tidak ditemukan pekerjaan dengan kata kunci tersebut")
+		fmt.Println("❌ Tidak ditemukan pekerjaan dengan kata kunci tersebut")
 	}
 }
 
 func binarySearch(jobs []Pekerjaan) {
-	// Untuk binary search, kita perlu mengurutkan terlebih dahulu
+	// Urutkan jobs berdasarkan gaji ASCENDING
 	sortedJobs := make([]Pekerjaan, len(jobs))
 	copy(sortedJobs, jobs)
 	sort.Slice(sortedJobs, func(i, j int) bool {
@@ -455,73 +457,68 @@ func binarySearch(jobs []Pekerjaan) {
 	var minGaji int
 	fmt.Scanln(&minGaji)
 
-	// Implementasi binary search
-	low := 0
-	high := len(sortedJobs) - 1
-	var result []Pekerjaan
+	left := 0
+	right := len(sortedJobs) - 1
+	found := -1
 
-	for low <= high {
-		mid := (low + high) / 2
-		if sortedJobs[mid].Gaji >= minGaji {
-			// Tambahkan semua pekerjaan dengan gaji >= minGaji
-			result = append(result, sortedJobs[mid:]...)
-			break
+	for left <= right && found == -1 {
+		mid := (left + right) / 2
+		if sortedJobs[mid].Gaji == minGaji {
+			found = mid
+		} else if sortedJobs[mid].Gaji > minGaji {
+			right = mid - 1
 		} else {
-			low = mid + 1
+			left = mid + 1
 		}
 	}
 
-	if len(result) > 0 {
-		fmt.Println("\nPekerjaan dengan gaji sesuai atau lebih tinggi:")
-		for _, job := range result {
-			tampilkanPekerjaan(job)
-		}
+	if found != -1 {
+		fmt.Println("\nPekerjaan ditemukan pada indeks:", found)
+		tampilkanPekerjaan(sortedJobs[found])
 	} else {
-		fmt.Println("Tidak ditemukan pekerjaan dengan gaji sesuai")
+		fmt.Println("❌ Tidak ditemukan pekerjaan dengan gaji sesuai")
 	}
 }
 
 func selectionSortByRelevansi(jobs []Pekerjaan) {
-	// Untuk demo, kita anggap relevansi adalah jumlah keterampilan yang sesuai
-	sortedJobs := make([]Pekerjaan, len(jobs))
-	copy(sortedJobs, jobs)
+	sorted := make([]Pekerjaan, len(jobs))
+	copy(sorted, jobs)
 
-	n := len(sortedJobs)
-	for i := 0; i < n-1; i++ {
-		minIdx := i
-		for j := i + 1; j < n; j++ {
-			// Bandingkan berdasarkan jumlah keterampilan (semakin banyak semakin relevan)
-			if len(sortedJobs[j].Keterampilan) > len(sortedJobs[minIdx].Keterampilan) {
-				minIdx = j
+	for i := 0; i < len(sorted)-1; i++ {
+		max := i
+		for j := i + 1; j < len(sorted); j++ {
+			if len(sorted[j].Keterampilan) > len(sorted[max].Keterampilan) {
+				max = j
 			}
 		}
-		sortedJobs[i], sortedJobs[minIdx] = sortedJobs[minIdx], sortedJobs[i]
+		temp := sorted[i]
+		sorted[i] = sorted[max]
+		sorted[max] = temp
 	}
 
 	fmt.Println("\nPekerjaan diurutkan berdasarkan relevansi:")
-	for _, job := range sortedJobs {
-		tampilkanPekerjaan(job)
+	for i := 0; i < len(sorted); i++ {
+		tampilkanPekerjaan(sorted[i])
 	}
 }
 
 func insertionSortByGaji(jobs []Pekerjaan) {
-	sortedJobs := make([]Pekerjaan, len(jobs))
-	copy(sortedJobs, jobs)
+	sorted := make([]Pekerjaan, len(jobs))
+	copy(sorted, jobs)
 
-	for i := 1; i < len(sortedJobs); i++ {
-		key := sortedJobs[i]
+	for i := 1; i < len(sorted); i++ {
+		temp := sorted[i]
 		j := i - 1
-
-		for j >= 0 && sortedJobs[j].Gaji > key.Gaji {
-			sortedJobs[j+1] = sortedJobs[j]
-			j = j - 1
+		for j >= 0 && sorted[j].Gaji > temp.Gaji {
+			sorted[j+1] = sorted[j]
+			j--
 		}
-		sortedJobs[j+1] = key
+		sorted[j+1] = temp
 	}
 
 	fmt.Println("\nPekerjaan diurutkan berdasarkan gaji (terendah ke tertinggi):")
-	for _, job := range sortedJobs {
-		tampilkanPekerjaan(job)
+	for i := 0; i < len(sorted); i++ {
+		tampilkanPekerjaan(sorted[i])
 	}
 }
 
@@ -534,28 +531,30 @@ func tampilkanPekerjaan(job Pekerjaan) {
 
 func buatResume(user UserData) {
 	fmt.Println("\n=== Resume Anda ===")
-	fmt.Printf("Nama: %s\n", user.Nama)
-	fmt.Printf("Email: %s\n\n", user.Email)
+	fmt.Println("Nama:", user.Nama)
+	fmt.Println("Email:", user.Email)
 
 	fmt.Println("PENDIDIKAN")
-	for _, p := range user.Pendidikan {
-		fmt.Printf("%s - %s (%d)\n", p.Institusi, p.Gelar, p.Tahun)
+	for i := 0; i < len(user.Pendidikan); i++ {
+		fmt.Println(user.Pendidikan[i].Institusi, user.Pendidikan[i].Gelar, user.Pendidikan[i].Tahun)
 	}
-
 	fmt.Println("\nPENGALAMAN KERJA")
-	for _, exp := range user.Pengalaman {
-		fmt.Printf("%s\n%s, %s\n%s\n\n", exp.Posisi, exp.Perusahaan, exp.Durasi, exp.Deskripsi)
+	for i := 0; i < len(user.Pengalaman); i++ {
+		fmt.Println(user.Pengalaman[i].Posisi)
+		fmt.Println(user.Pengalaman[i].Perusahaan, user.Pengalaman[i].Durasi)
+		fmt.Println(user.Pengalaman[i].Deskripsi)
+		fmt.Println()
 	}
-
 	fmt.Println("KEAHLIAN")
-	fmt.Println(strings.Join(user.Keterampilan, ", "))
-
-	fmt.Println("\nResume telah dibuat! (Dalam aplikasi nyata, ini akan diekspor ke PDF atau format lain)")
+	for i := 0; i < len(user.Keterampilan); i++ {
+		fmt.Println(user.Keterampilan[i])
+	}
+	fmt.Println("\n✅ Resume telah dibuat!")
 }
 
 func evaluasiResume(user UserData, jobs []Pekerjaan) {
 	if len(jobs) == 0 {
-		fmt.Println("Tidak ada pekerjaan tersedia untuk evaluasi")
+		fmt.Println("❌ Tidak ada pekerjaan tersedia untuk evaluasi")
 		return
 	}
 
@@ -570,7 +569,7 @@ func evaluasiResume(user UserData, jobs []Pekerjaan) {
 	fmt.Scanln(&pilihan)
 
 	if pilihan < 1 || pilihan > len(jobs) {
-		fmt.Println("Pilihan tidak valid")
+		fmt.Println("❌ Pilihan tidak valid")
 		return
 	}
 
@@ -592,57 +591,49 @@ func evaluasiResume(user UserData, jobs []Pekerjaan) {
 			}
 		}
 		if found {
-			fmt.Printf("- [✓] %s\n", jobSkill)
+			fmt.Printf("- [✅] %s\n", jobSkill)
 			skillMatch++
 		} else {
 			fmt.Printf("- [ ] %s (disarankan untuk ditambahkan)\n", jobSkill)
 		}
 	}
 
-	// Saran AI (simulasi)
+	// Saran perbaikan resume (simulasi AI sederhana)
 	fmt.Println("\nSaran AI untuk meningkatkan resume:")
 	if skor < 0.3 {
 		fmt.Println("- Tambahkan lebih banyak pengalaman yang relevan")
 		fmt.Println("- Pelajari keterampilan utama yang dibutuhkan untuk posisi ini")
+		fmt.Println("- Ikuti pelatihan atau kursus online untuk meningkatkan skill")
+		fmt.Println("- Perbaiki format dan tata letak resume agar lebih menarik")
 	} else if skor < 0.7 {
 		fmt.Println("- Soroti pengalaman yang paling relevan di bagian atas resume")
 		fmt.Println("- Gunakan kata kunci dari deskripsi pekerjaan dalam resume Anda")
+		fmt.Println("- Tampilkan pencapaian atau proyek yang pernah dikerjakan")
+		fmt.Println("- Perbarui informasi kontak dan portofolio")
 	} else {
 		fmt.Println("- Resume Anda sudah cukup kuat untuk posisi ini")
 		fmt.Println("- Fokus pada penulisan surat lamaran yang menarik")
+		fmt.Println("- Siapkan diri untuk wawancara kerja")
 	}
 }
 
 func hitungKesesuaian(user UserData, job Pekerjaan) float64 {
-	// Hitung kesesuaian keterampilan
-	skillScore := 0.0
-	if len(job.Keterampilan) > 0 {
-		matchedSkills := 0
-		for _, jobSkill := range job.Keterampilan {
-			for _, userSkill := range user.Keterampilan {
-				if strings.EqualFold(jobSkill, userSkill) {
-					matchedSkills++
-					break
-				}
-			}
-		}
-		skillScore = float64(matchedSkills) / float64(len(job.Keterampilan))
-	}
-
-	// Hitung kesesuaian pengalaman (sederhana)
-	expScore := 0.0
-	if len(user.Pengalaman) > 0 {
-		// Asumsikan beberapa relevansi jika ada pengalaman
-		expScore = 0.3
-		// Periksa jika ada kata kunci yang cocok di pengalaman
-		for _, exp := range user.Pengalaman {
-			if strings.Contains(strings.ToLower(exp.Posisi), strings.ToLower(job.Judul)) {
-				expScore = 0.7
+	matchedSkills := 0
+	for i := 0; i < len(job.Keterampilan); i++ {
+		for j := 0; j < len(user.Keterampilan); j++ {
+			if strings.EqualFold(job.Keterampilan[i], user.Keterampilan[j]) {
+				matchedSkills++
 				break
 			}
 		}
 	}
-
-	// Gabungkan skor (bobot: 60% keterampilan, 40% pengalaman)
-	return 0.6*skillScore + 0.4*expScore
+	var skillScore float64 = 0
+	if len(job.Keterampilan) > 0 {
+		skillScore = float64(matchedSkills) / float64(len(job.Keterampilan))
+	}
+	var expScore float64 = 0
+	if len(user.Pengalaman) > 0 {
+		expScore = 1
+	}
+	return (skillScore + expScore) / 2
 }
